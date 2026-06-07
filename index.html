@@ -1439,33 +1439,24 @@ async function addTester() {
     const testerName =
         document.getElementById("testerName").value.trim();
 
-    if (!testerName) {
-        alert("Enter a tester name");
-        return;
-    }
+    const gamemode =
+        document.getElementById("gamemode").value;
 
-    try {
+    if (!testerName) return;
 
-        await addDoc(
-            collection(db, "testers"),
-            {
-                name: testerName
-            }
-        );
+    await addDoc(
+        collection(db, "testers"),
+        {
+            name: testerName,
+            gamemode: gamemode
+        }
+    );
 
-        document.getElementById("testerName").value = "";
+    document.getElementById("testerName").value = "";
 
-        await loadTesters();
+    await loadTesters();
 
-        alert("Tester added!");
-
-    } catch (err) {
-
-        console.error(err);
-
-        alert(err.message);
-
-    }
+    alert("Tester added!");
 
 }
 
@@ -1484,20 +1475,49 @@ async function loadTesters() {
 
     testersList.innerHTML = "";
 
-    snapshot.forEach((doc) => {
+    snapshot.forEach((docSnap) => {
 
-        const tester = doc.data();
+        const tester = docSnap.data();
 
         testersList.innerHTML += `
-            <div class="tier">
-                <h2>${tester.name}</h2>
-            </div>
+
+        <div class="tier">
+
+            <h2>${tester.name}</h2>
+
+            <p>${tester.gamemode}</p>
+
+            ${window.isAdmin ? `
+
+            <button
+                class="deleteBtn"
+                onclick="removeTester('${docSnap.id}')"
+            >
+                Remove Tester
+            </button>
+
+            ` : ""}
+
+        </div>
+
         `;
 
     });
 
 }
-loadPlayers();
+window.removeTester = async function(id) {
+
+    const sure = confirm("Remove this tester?");
+
+    if (!sure) return;
+
+    await deleteDoc(
+        doc(db, "testers", id)
+    );
+
+    loadTesters();
+
+};
 
 </script>
 </body>
