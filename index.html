@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-
-<meta charset="UTF-8">
+<meta async function addPlayer(){harset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NL Tiers</title>
 
@@ -1155,33 +1154,33 @@ function setFilter(mode){
 async function addPlayer(){
 
     const player =
-    document.getElementById("playerName").value;
+        document.getElementById("playerName").value;
 
     const gamemode =
-    document.getElementById("gamemode").value;
+        document.getElementById("gamemode").value;
 
     const tier =
-    document.getElementById("tier").value;
+        document.getElementById("tier").value;
 
     if(player === "") return;
 
     await supabaseClient
-    .from("players")
-    .insert([
-    {
-        player,
-        gamemode,
-        tier
-    }
-    ]);
+        .from("players")
+        .insert([
+            {
+                player,
+                gamemode,
+                tier
+            }
+        ]);
 
     document
-    .getElementById("playerName")
-    .value = "";
+        .getElementById("playerName")
+        .value = "";
 
     loadPlayers();
 
-}  
+} // <-- THIS WAS MISSING
 
 async function loadPlayers(){
 
