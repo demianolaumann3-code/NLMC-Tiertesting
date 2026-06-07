@@ -1154,30 +1154,34 @@ function setFilter(mode){
 
 async function addPlayer(){
 
-const player =
-document.getElementById("playerName").value;
+    const player =
+    document.getElementById("playerName").value;
 
-const gamemode =
-document.getElementById("gamemode").value;
+    const gamemode =
+    document.getElementById("gamemode").value;
 
-const tier =
-document.getElementById("tier").value;
+    const tier =
+    document.getElementById("tier").value;
 
-if(player === "") return;
+    if(player === "") return;
 
-await supabaseClient
-.from("players")
-.insert([
-{
-player,
-gamemode,
-tier
-}
-]);
+    await supabaseClient
+    .from("players")
+    .insert([
+    {
+        player,
+        gamemode,
+        tier
+    }
+    ]);
 
-document
-.getElementById("playerName")
-.value = "";
+    document
+    .getElementById("playerName")
+    .value = "";
+
+    loadPlayers();
+
+}  
 
 async function loadPlayers(){
 
@@ -1194,7 +1198,7 @@ async function loadPlayers(){
 
         return;
 
-    }
+   }
 
 allData = data;
 
@@ -1458,9 +1462,6 @@ async function addTester() {
 
 }
 
-loadTesters();
-
-
 async function loadTesters() {
 
     const snapshot =
@@ -1516,8 +1517,10 @@ window.removeTester = async function(id) {
     loadTesters();
 
 };
- currentFilter = "ALL";
+currentFilter = "ALL";
+
 loadPlayers();
+loadTesters();
 
 </script>
 </body>
