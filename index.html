@@ -961,10 +961,21 @@ document.getElementById("adminPanel").style.display = "block";
 };
 
 onAuthStateChanged(auth, (user) => {
+
     if (user) {
+
         window.isAdmin = true;
+
         document.getElementById("adminPanel").style.display = "block";
+
+    } else {
+
+        window.isAdmin = false;
+
+        document.getElementById("adminPanel").style.display = "none";
+
     }
+
 });
 </script>
 
