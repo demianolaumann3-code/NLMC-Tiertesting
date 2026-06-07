@@ -861,6 +861,16 @@ id="playerName"
 placeholder="Player Name"
 >
 
+<input
+type="text"
+id="testerName"
+placeholder="Tester Name"
+>
+
+<button onclick="addTester()">
+ADD TESTER
+</button>
+
 <select id="gamemode">
 
 <option>Mace</option>
@@ -1391,6 +1401,40 @@ function closeTesters() {
     document
         .getElementById("testersModal")
         .style.display = "none";
+
+}
+
+async function addTester() {
+
+    if (!window.isAdmin) {
+        alert("Admins only");
+        return;
+    }
+
+    const testerName =
+        document.getElementById("testerName").value.trim();
+
+    if (!testerName) {
+        alert("Enter a tester name");
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("testers")
+        .insert([
+            {
+                name: testerName
+            }
+        ]);
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    document.getElementById("testerName").value = "";
+
+    alert("Tester added!");
 
 }
 
