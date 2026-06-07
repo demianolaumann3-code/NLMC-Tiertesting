@@ -890,6 +890,13 @@ placeholder="Player Name"
 <button onclick="addPlayer()">
 ADD TIER
 </button>
+ 
+<button
+class="deleteAllBtn"
+onclick="deleteAllPlayers()"
+>
+DELETE ALL PLAYERS
+</button>   
 
 </div>
 
@@ -1321,7 +1328,32 @@ document
 
 loadPlayers();
 
-</script>
+async function deleteAllPlayers() {
 
+    if (!window.isAdmin) {
+        alert("Admins only");
+        return;
+    }
+
+    const answer = prompt(
+        "Type DELETE to remove all players"
+    );
+
+    if (answer !== "DELETE") return;
+
+    const { error } = await supabaseClient
+        .from("players")
+        .delete()
+        .neq("id", 0);
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    alert("All players deleted.");
+
+    loadPlayers();
+}
 </body>
 </html>
