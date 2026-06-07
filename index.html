@@ -910,7 +910,14 @@ class="deleteAllBtn"
 onclick="deleteAllPlayers()"
 >
 DELETE ALL PLAYERS
-</button>   
+</button>
+
+<button
+class="deleteAllBtn"
+onclick="deleteAllTesters()"
+>
+DELETE ALL TESTERS
+</button>
 
 </div>
 
@@ -983,11 +990,13 @@ import {
     signOut
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
- import {
+import {
     getFirestore,
     collection,
     addDoc,
-    getDocs
+    getDocs,
+    deleteDoc,
+    doc
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
   
 const firebaseConfig = {
@@ -1008,6 +1017,8 @@ window.db = db;
 window.collection = collection;
 window.addDoc = addDoc;
 window.getDocs = getDocs;
+window.deleteDoc = deleteDoc;
+window.doc = doc;
 
 window.login = async function() {
 
