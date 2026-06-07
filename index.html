@@ -799,6 +799,13 @@ placeholder="Password"
 LOGIN
 </button>
 
+<button
+id="logoutBtn"
+onclick="logout()"
+style="display:none;"
+>
+LOGOUT
+</button>
 </div>
 
 </div>
@@ -928,7 +935,7 @@ Close
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDm1vsdX5_QqfeEB5go9hTncKnaqqKHQf0",
@@ -947,38 +954,74 @@ window.login = async function() {
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
 
+    try {window.login = async function() {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
     try {
       const userCredential =
 await signInWithEmailAndPassword(auth, email, password);
 
 console.log("Logged in:", userCredential.user.email);
 
-window.isAdmin = false;
-document.getElementById("adminPanel").style.display = "block";
+      
     } catch (err) {
         alert(err.message);
     }
 };
+window.logout = async function() {
 
+    await signOut(auth);
+
+};
+         
 onAuthStateChanged(auth, (user) => {
+
+    const emailInput =
+        document.getElementById("email");
+
+    const passwordInput =
+        document.getElementById("password");
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+    const adminPanel =
+        document.getElementById("adminPanel");
+
+    const loginBtn =
+        document.querySelector(
+            '.loginBox button:not(#logoutBtn)'
+        );
 
     if (user) {
 
         window.isAdmin = true;
 
-        document.getElementById("adminPanel").style.display = "block";
+        adminPanel.style.display = "block";
+
+        emailInput.style.display = "none";
+        passwordInput.style.display = "none";
+
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline-block";
 
     } else {
 
         window.isAdmin = false;
 
-        document.getElementById("adminPanel").style.display = "none";
+        adminPanel.style.display = "none";
+
+        emailInput.style.display = "block";
+        passwordInput.style.display = "block";
+
+        loginBtn.style.display = "inline-block";
+        logoutBtn.style.display = "none";
 
     }
 
 });
-</script>
-
+         
 <script>
 
 const SUPABASE_URL =
