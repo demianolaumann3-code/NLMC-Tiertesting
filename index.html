@@ -798,6 +798,10 @@ placeholder="Password"
 LOGIN
 </button>
 
+<button onclick="openTesters()">
+TESTERS
+</button>
+
 <button
 id="logoutBtn"
 onclick="logout()"
@@ -805,6 +809,7 @@ style="display:none;"
 >
 LOGOUT
 </button>
+
 </div>
 
 </div>
@@ -903,6 +908,26 @@ DELETE ALL PLAYERS
 
 <div id="leaderboard"></div>
 
+ <!-- TESTERS MODAL -->
+
+<div class="modal" id="testersModal">
+
+    <div class="modalContent">
+
+        <h2>Testers</h2>
+
+        <div id="testersList"></div>
+
+        <button
+            class="closeBtn"
+            onclick="closeTesters()"
+        >
+            Close
+        </button>
+
+    </div>
+
+</div>
 <!-- MODAL -->
 
 <div class="modal" id="modal">
@@ -1349,6 +1374,22 @@ function closeModal(){
 
     document
         .getElementById("modal")
+        .style.display = "none";
+
+}
+
+function openTesters() {
+
+    document
+        .getElementById("testersModal")
+        .style.display = "flex";
+
+}
+
+function closeTesters() {
+
+    document
+        .getElementById("testersModal")
         .style.display = "none";
 
 }
