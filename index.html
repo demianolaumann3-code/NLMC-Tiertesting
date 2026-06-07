@@ -1004,6 +1004,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+window.db = db;
+window.collection = collection;
+window.addDoc = addDoc;
+window.getDocs = getDocs;
+
 window.login = async function() {
 
     const email =
@@ -1441,24 +1446,22 @@ async function addTester() {
 
 loadTesters();
 
-}
+
 async function loadTesters() {
 
-    const { data, error } = await supabaseClient
-        .from("testers")
-        .select("*");
-
-    if (error) {
-        console.log(error);
-        return;
-    }
+    const snapshot =
+        await getDocs(
+            collection(db, "testers")
+        );
 
     const testersList =
         document.getElementById("testersList");
 
     testersList.innerHTML = "";
 
-    data.forEach(tester => {
+    snapshot.forEach((doc) => {
+
+        const tester = doc.data();
 
         testersList.innerHTML += `
             <div class="tier">
