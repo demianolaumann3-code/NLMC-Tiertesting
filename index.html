@@ -1407,8 +1407,7 @@ async function openTesters() {
         .getElementById("testersModal")
         .style.display = "flex";
 
-    loadTesters();
-
+    await loadTesters();
 }
 
 function closeTesters() {
@@ -1429,18 +1428,33 @@ async function addTester() {
     const testerName =
         document.getElementById("testerName").value.trim();
 
-    if (!testerName) return;
+    if (!testerName) {
+        alert("Enter a tester name");
+        return;
+    }
 
-    await addDoc(
-        collection(db, "testers"),
-        {
-            name: testerName
-        }
-    );
+    try {
 
-    document.getElementById("testerName").value = "";
+        await addDoc(
+            collection(db, "testers"),
+            {
+                name: testerName
+            }
+        );
 
-    alert("Tester added!");
+        document.getElementById("testerName").value = "";
+
+        await loadTesters();
+
+        alert("Tester added!");
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert(err.message);
+
+    }
 
 }
 
