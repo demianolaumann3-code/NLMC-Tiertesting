@@ -1300,21 +1300,21 @@ document
 
 }
 
-sync function deleteTier(id){
+async function deleteTier(id){
 
-const sure =
-confirm("Delete this tier?");
+    const sure =
+        confirm("Delete this tier?");
 
-if(!sure) return;
+    if(!sure) return;
 
-await supabaseClient
-.from("players")
-.delete()
-.eq("id",id);
+    await supabaseClient
+        .from("players")
+        .delete()
+        .eq("id", id);
 
-closeModal();
+    closeModal();
 
-loadPlayers();
+    loadPlayers();
 
 }
 
@@ -1345,14 +1345,15 @@ async function deleteAllPlayers() {
 
     loadPlayers();
 }
+ 
+ function closeModal(){
 
-function closeModal(){
-
-document
-.getElementById("modal")
-.style.display = "none";
+    document
+        .getElementById("modal")
+        .style.display = "none";
 
 }
+
 </Script> 
 </body>
 </html>
