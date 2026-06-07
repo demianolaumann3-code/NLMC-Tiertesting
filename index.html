@@ -1179,24 +1179,22 @@ document
 .getElementById("playerName")
 .value = "";
 
-loadPlayers();
-
-}
-
 async function loadPlayers(){
 
-const { data,error } =
-await supabaseClient
-.from("players")
-.select("*");
+    console.log("Current filter:", currentFilter);
 
-if(error){
+    const { data,error } =
+    await supabaseClient
+    .from("players")
+    .select("*");
 
-console.log(error);
+    if(error){
 
-return;
+        console.log(error);
 
-}
+        return;
+
+    }
 
 allData = data;
 
@@ -1518,6 +1516,8 @@ window.removeTester = async function(id) {
     loadTesters();
 
 };
+ currentFilter = "ALL";
+loadPlayers();
 
 </script>
 </body>
