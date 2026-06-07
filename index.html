@@ -1300,7 +1300,7 @@ document
 
 }
 
-async function deleteTier(id){
+sync function deleteTier(id){
 
 const sure =
 confirm("Delete this tier?");
@@ -1317,16 +1317,6 @@ closeModal();
 loadPlayers();
 
 }
-
-function closeModal(){
-
-document
-.getElementById("modal")
-.style.display = "none";
-
-}
-
-loadPlayers();
 
 async function deleteAllPlayers() {
 
@@ -1355,5 +1345,14 @@ async function deleteAllPlayers() {
 
     loadPlayers();
 }
+
+function closeModal(){
+
+document
+.getElementById("modal")
+.style.display = "none";
+
+}
+</Script> 
 </body>
 </html>
