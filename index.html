@@ -982,6 +982,13 @@ import {
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+ import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
   
 const firebaseConfig = {
   apiKey: "AIzaSyDm1vsdX5_QqfeEB5go9hTncKnaqqKHQf0",
@@ -995,6 +1002,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 window.login = async function() {
 
@@ -1388,11 +1396,13 @@ function closeModal(){
 
 }
 
-function openTesters() {
+async function openTesters() {
 
     document
         .getElementById("testersModal")
         .style.display = "flex";
+
+    loadTesters();
 
 }
 
@@ -1414,23 +1424,14 @@ async function addTester() {
     const testerName =
         document.getElementById("testerName").value.trim();
 
-    if (!testerName) {
-        alert("Enter a tester name");
-        return;
-    }
+    if (!testerName) return;
 
-    const { error } = await supabaseClient
-        .from("testers")
-        .insert([
-            {
-                name: testerName
-            }
-        ]);
-
-    if (error) {
-        alert(error.message);
-        return;
-    }
+    await addDoc(
+        collection(db, "testers"),
+        {
+            name: testerName
+        }
+    );
 
     document.getElementById("testerName").value = "";
 
@@ -1438,6 +1439,36 @@ async function addTester() {
 
 }
 
+loadTesters();
+
+}
+async function loadTesters() {
+
+    const { data, error } = await supabaseClient
+        .from("testers")
+        .select("*");
+
+    if (error) {
+        console.log(error);
+        return;
+    }
+
+    const testersList =
+        document.getElementById("testersList");
+
+    testersList.innerHTML = "";
+
+    data.forEach(tester => {
+
+        testersList.innerHTML += `
+            <div class="tier">
+                <h2>${tester.name}</h2>
+            </div>
+        `;
+
+    });
+
+}
 loadPlayers();
 
 </script>
