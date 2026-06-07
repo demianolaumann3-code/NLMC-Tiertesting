@@ -784,9 +784,15 @@ NL<span>TIERS</span>
 <div class="loginBox">
 
 <input
+type="email"
+id="email"
+placeholder="Email"
+>
+
+<input
 type="password"
 id="password"
-placeholder="Admin code"
+placeholder="Password"
 >
 
 <button onclick="login()">
@@ -972,7 +978,7 @@ SUPABASE_KEY
 
 
 
-let isAdmin = false;
+window.isAdmin = false;
 
 let currentFilter = "ALL";
 
@@ -1181,7 +1187,7 @@ html += `
 ${tierPoints[entry.tier]} points
 </p>
 
-${isAdmin ? `
+${window.isAdmin ? `
 
 <button
 class="deleteBtn"
