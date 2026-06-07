@@ -774,15 +774,9 @@ NL<span>TIERS</span>
 
 <div class="loginBox">
 
-<input
-type="password"
-id="password"
-placeholder="Admin code"
->
-
-<button onclick="login()">
-LOGIN
-</button>
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+<button id="loginBtn">LOGIN</button>
 
 </div>
 
@@ -910,7 +904,61 @@ Close
 
 </div>
 
-<script>
+<script type="module">\n
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDm1vsdX5_QqfeEB5go9hTncKnaqqKHQf0",
+  authDomain: "nltiers.firebaseapp.com",
+  projectId: "nltiers",
+  storageBucket: "nltiers.firebasestorage.app",
+  messagingSenderId: "15766431640",
+  appId: "1:15766431640:web:6bd529c17f03437d692ded",
+  measurementId: "G-WMRN22555J"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+
+let isAdmin = false;
+
+async function firebaseLogin(){
+ if(auth.currentUser){
+   await signOut(auth);
+   return;
+ }
+
+ try{
+   await signInWithEmailAndPassword(
+      auth,
+      document.getElementById('email').value,
+      document.getElementById('password').value
+   );
+ }catch(e){
+   alert(e.message);
+ }
+}
+
+onAuthStateChanged(auth,(user)=>{
+ const btn=document.getElementById('loginBtn');
+ if(user){
+   isAdmin=true;
+   document.getElementById('adminPanel').style.display='block';
+   btn.textContent='LOGOUT';
+ }else{
+   isAdmin=false;
+   document.getElementById('adminPanel').style.display='none';
+   btn.textContent='LOGIN';
+ }
+});
+
+setTimeout(()=>{
+ const btn=document.getElementById('loginBtn');
+ if(btn) btn.onclick=firebaseLogin;
+},500);
+
 
 const SUPABASE_URL =
 "https://mgtwbthpqinyxrcnglwt.supabase.co";
@@ -924,7 +972,7 @@ SUPABASE_URL,
 SUPABASE_KEY
 );
 
-const ADMIN_PASSWORD = "5676";
+// Firebase Auth enabled
 
 let isAdmin = false;
 
