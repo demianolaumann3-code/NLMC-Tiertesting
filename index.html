@@ -953,7 +953,7 @@ await signInWithEmailAndPassword(auth, email, password);
 
 console.log("Logged in:", userCredential.user.email);
 
-window.isAdmin = true;
+window.isAdmin = false;
 document.getElementById("adminPanel").style.display = "block";
     } catch (err) {
         alert(err.message);
