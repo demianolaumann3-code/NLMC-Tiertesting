@@ -948,7 +948,13 @@ window.login = async function() {
     const password = document.getElementById("password").value;
 
     try {
-        await signInWithEmailAndPassword(auth, email, password);
+      const userCredential =
+await signInWithEmailAndPassword(auth, email, password);
+
+console.log("Logged in:", userCredential.user.email);
+
+window.isAdmin = true;
+document.getElementById("adminPanel").style.display = "block";
     } catch (err) {
         alert(err.message);
     }
