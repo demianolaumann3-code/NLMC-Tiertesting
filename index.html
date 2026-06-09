@@ -569,6 +569,9 @@ width:92%;
 
 max-width:850px;
 
+max-height:80vh;
+overflow-y:auto;
+
 background:
 linear-gradient(
 145deg,
@@ -582,15 +585,8 @@ border-radius:40px;
 
 border:
 1px solid rgba(255,255,255,0.08);
+
 }
-
-.modalTop{
-
-text-align:center;
-
-margin-bottom:35px;
-}
-
 .bigAvatar{
 
 width:150px;
@@ -1471,36 +1467,34 @@ async function loadTesters() {
     const testersList =
         document.getElementById("testersList");
 
-    testersList.innerHTML = "";
+testersList.innerHTML += `
 
-    snapshot.forEach((docSnap) => {
+<div
+    class="tier"
+    onclick="openTester('${tester.name}','${tester.gamemode}')"
+    style="cursor:pointer;"
+>
 
-        const tester = docSnap.data();
+    <h2>${tester.name}</h2>
 
-        testersList.innerHTML += `
+    <p>${tester.gamemode}</p>
 
-        <div class="tier">
+    ${window.isAdmin ? `
 
-            <h2>${tester.name}</h2>
+    <button
+        class="deleteBtn"
+        onclick="event.stopPropagation(); removeTester('${docSnap.id}')"
+    >
+        Remove Tester
+    </button>
 
-            <p>${tester.gamemode}</p>
+    ` : ""}
 
-            ${window.isAdmin ? `
+</div>
 
-            <button
-                class="deleteBtn"
-                onclick="removeTester('${docSnap.id}')"
-            >
-                Remove Tester
-            </button>
-
-            ` : ""}
-
-        </div>
-
-        `;
-
-    });
+`;
+ 
+  });
 
 }
 window.removeTester = async function(id) {
@@ -1516,6 +1510,16 @@ window.removeTester = async function(id) {
     loadTesters();
 
 };
+
+ window.openTester = function(name, gamemode){
+
+    alert(
+        "Tester: " + name +
+        "\n\nGamemode: " + gamemode
+    );
+
+};
+ 
 currentFilter = "ALL";
 
 loadPlayers();
